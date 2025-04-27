@@ -87,7 +87,7 @@ Output:
 
 A ready-to-use quiz in Markdown and downloadable PDF.
 
-##⚡ Future Improvements
+## ⚡ Future Improvements
 Add support for LaTeX-based math questions.
 
 Enhance PDF formatting (add page breaks, better headings).
@@ -98,14 +98,5 @@ Improve fallback questions using a local knowledge base.
 
 Allow multi-topic quizzes.
 
-## 🤝 Contributing
-Contributions, issues, and feature requests are welcome!
-Feel free to fork the repository and submit a pull request. 🚀
-
-📜 License
-This project is licensed under the MIT License.
-
-✨ Acknowledgments
-Thanks to Ollama for making LLaMA3 models easy to run locally.
 
 Thanks to Gradio for making Python app building super easy.
