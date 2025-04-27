@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(90deg, #6c63ff, #a29bfe);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .quiz-output h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .question-card {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 5px solid;
+        }
+
+        .question-card.easy {
+            border-left-color: #2ecc71;
+        }
+
+        .question-card.medium {
+            border-left-color: #f1c40f;
+        }
+
+        .question-card.hard {
+            border-left-color: #e74c3c;
+        }
+
+        .question-card p {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .question-card .answer {
+            color: #555;
+            font-style: italic;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #6c63ff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+
+            .quiz-output h2 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generated Quiz</h1>
+        <a href="index.html" class="btn">Back to Generator</a>
+        <div class="loader" id="loader"></div>
+        <div class="quiz-output" id="quizOutput">
+            <!-- Questions will be added here dynamically -->
+        </div>
+    </div>
+
+    <script>
+        // Parse URL parameters
+        const params = new URLSearchParams(window.location.search);
+        const topic = params.get('topic');
+        const totalQuestions = parseInt(params.get('totalQuestions')) || 0;
+        const easyQuestions = parseInt(params.get('easyQuestions')) || 0;
+        const mediumQuestions = parseInt(params.get('mediumQuestions')) || 0;
+        const hardQuestions = parseInt(params.get('hardQuestions')) || 0;
+
+        const loader = document.getElementById('loader');
+        const quizOutput = document.getElementById('quizOutput');
+
+        // Show loader
+        loader.style.display = 'block';
+        quizOutput.style.display = 'none';
+
+        // Simulate quiz generation
+        setTimeout(() => {
+            loader.style.display = 'none';
+            quizOutput.style.display = 'block';
+            quizOutput.innerHTML = `<h2>Quiz on ${topic}</h2>`;
+
+            let questionNumber = 1;
+
+            // Generate Easy questions
+            for (let i = 0; i < easyQuestions; i++) {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card easy';
+                questionCard.innerHTML = `
+                    <p><strong>Question ${questionNumber} (Easy):</strong> What is a basic concept of ${topic}?</p>
+                    <p class="answer"><strong>Answer:</strong> Sample easy answer for question ${questionNumber}.</p>
+                `;
+                quizOutput.appendChild(questionCard);
+                questionNumber++;
+            }
+
+            // Generate Medium questions
+            for (let i = 0; i < mediumQuestions; i++) {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card medium';
+                questionCard.innerHTML = `
+                    <p><strong>Question ${questionNumber} (Medium):</strong> What is an intermediate concept of ${topic}?</p>
+                    <p class="answer"><strong>Answer:</strong> Sample medium answer for question ${questionNumber}.</p>
+                `;
+                quizOutput.appendChild(questionCard);
+                questionNumber++;
+            }
+
+            // Generate Hard questions
+            for (let i = 0; i < hardQuestions; i++) {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card hard';
+                questionCard.innerHTML = `
+                    <p><strong>Question ${questionNumber} (Hard):</strong> What is an advanced concept of ${topic}?</p>
+                    <p class="answer"><strong>Answer:</strong> Sample hard answer for question ${questionNumber}.</p>
+                `;
+                quizOutput.appendChild(questionCard);
+                questionNumber++;
+            }
+        }, 1500); // Simulate 1.5s loading time
+    </script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Quiz Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #6c63ff;
+        }
+
+        .question-distribution {
+            display: flex;
+            gap: 10px;
+        }
+
+        .question-distribution input {
+            flex: 1;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #6c63ff, #a29bfe);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .question-distribution {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                font-size: 1rem;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI-Powered Quiz Generator</h1>
+        <form id="quizForm">
+            <div class="form-group">
+                <label for="topic">Topic</label>
+                <input type="text" id="topic" placeholder="e.g., Photosynthesis" required>
+            </div>
+            <div class="form-group">
+                <label for="totalQuestions">Total Number of Questions</label>
+                <input type="number" id="totalQuestions" min="1" placeholder="Enter number" required>
+            </div>
+            <div class="form-group">
+                <label>Question Difficulty Distribution</label>
+                <div class="question-distribution">
+                    <input type="number" id="easyQuestions" min="0" placeholder="Easy" required>
+                    <input type="number" id="mediumQuestions" min="0" placeholder="Medium" required>
+                    <input type="number" id="hardQuestions" min="0" placeholder="Hard" required>
+                </div>
+                <p class="error" id="distributionError">The sum of Easy, Medium, and Hard questions must equal the total number of questions.</p>
+            </div>
+            <button type="submit" class="btn" id="generateBtn" disabled>Generate Quiz</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('quizForm');
+        const totalQuestionsInput = document.getElementById('totalQuestions');
+        const easyQuestionsInput = document.getElementById('easyQuestions');
+        const mediumQuestionsInput = document.getElementById('mediumQuestions');
+        const hardQuestionsInput = document.getElementById('hardQuestions');
+        const generateBtn = document.getElementById('generateBtn');
+        const distributionError = document.getElementById('distributionError');
+
+        function validateDistribution() {
+            const total = parseInt(totalQuestionsInput.value) || 0;
+            const easy = parseInt(easyQuestionsInput.value) || 0;
+            const medium = parseInt(mediumQuestionsInput.value) || 0;
+            const hard = parseInt(hardQuestionsInput.value) || 0;
+
+            if (total === easy + medium + hard && total > 0) {
+                distributionError.style.display = 'none';
+                generateBtn.disabled = false;
+            } else {
+                distributionError.style.display = 'block';
+                generateBtn.disabled = true;
+            }
+        }
+
+        totalQuestionsInput.addEventListener('input', validateDistribution);
+        easyQuestionsInput.addEventListener('input', validateDistribution);
+        mediumQuestionsInput.addEventListener('input', validateDistribution);
+        hardQuestionsInput.addEventListener('input', validateDistribution);
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const topic = document.getElementById('topic').value;
+            const totalQuestions = totalQuestionsInput.value;
+            const easyQuestions = easyQuestionsInput.value;
+            const mediumQuestions = mediumQuestionsInput.value;
+            const hardQuestions = hardQuestionsInput.value;
+
+            // Pass data to quiz.html via URL parameters (for demo; use backend in production)
+            const params = new URLSearchParams({
+                topic,
+                totalQuestions,
+                easyQuestions,
+                mediumQuestions,
+                hardQuestions
+            });
+            window.location.href = `quiz.html?${params.toString()}`;
+        });
+    </script>
+</body>
+</html>
